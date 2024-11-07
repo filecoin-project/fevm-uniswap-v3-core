@@ -513,10 +513,8 @@ describe('UniswapV3Pool swap tests', () => {
           try {
             await (await tx).wait()
           } catch (error) {
-            // extract reason
-            const match = /revert reason: Error\(([^)]+)\),/g.exec(error.message) || [null, null]
+            const match = /\[Error\(([^)]+)\)\]/g.exec(error) || [null, null]
             const vmError = `VM Exception while processing transaction: revert ${match[1]}`
-
             expect({
               swapError: vmError,
               poolBalance0: poolBalance0.toString(),
